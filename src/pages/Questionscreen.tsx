@@ -5,6 +5,7 @@ import QuestionBox from "../Components/QuestionBox";
 export default function Questionscreen() {
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState<string[]>([]);
+  const [correctanswer, getAnswer] = useState<string[]>([]);
   const [backendquestion, setBackendQuestion] = useState<any[]>([]);
   const [index, setIndex] = useState(0);
 
@@ -27,6 +28,8 @@ export default function Questionscreen() {
       const data = backendquestion[index];
       setQuestion(data.question);
       setOptions(data.options);
+      getAnswer(data.correctAnswer);
+      
     }
   }, [index, backendquestion]);
 
@@ -42,10 +45,12 @@ export default function Questionscreen() {
     setIndex((prev) => prev + 1);
   }
 
+ 
+
   return (
     <>
      
-        <QuestionBox question={question} options={options} onpress={onpress} />
+        <QuestionBox question={question} options={options} correctoption={correctanswer} onpress={onpress} />
      
     </>
   );
