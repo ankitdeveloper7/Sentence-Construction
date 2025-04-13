@@ -1,63 +1,52 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import axios from "axios";
+import QuestionBox from "../Components/QuestionBox";
 
 export default function Questionscreen() {
-    const[question, setquestion] = useState([]);
-    const[blank, setBlank] = useState(0);
-    const[answerset, setanswer] = useState<(string | null)[]>([]);
-  
-    type Sentence = {
-      question:string,
-      option:string[],
-      answer:string[]
-    }
-  
-    const data:Sentence = {
-      "question":"Soham and mohan is_______to market_______they will__________to buy some________for their family.",
-      "option": ["going", "and","have", "fruits"],
-      "answer":["going", "and", "have", "fruits"]
-    }
-  
-    useEffect(()=>{
-      function setthequestion(){
-        const part:any = data.question.split("______");
-        setquestion(part);
-        setBlank(question.length -1);
+  const [question, setQuestion] = useState("");
+  const [options, setOptions] = useState<string[]>([]);
+  const [backendquestion, setBackendQuestion] = useState<any[]>([]);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await axios.get("http://localhost:3000/data");
+        const data = response.data.questions;
+        setBackendQuestion(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-      setthequestion();
-    },[data])
-  
-  
-    function onpress(answer:string){
-     answerset.push(answer)
     }
-  
-    function onpress2(){
-      answerset.pop()
+
+    getData();
+  }, []);
+
+  useEffect(() => {
+    if (backendquestion.length > 0 && backendquestion[index]) {
+      const data = backendquestion[index];
+      setQuestion(data.question);
+      setOptions(data.options);
     }
-  
-   
-    
-  
-    return (
-      <>
-       <p className="text-gray-600">{question.map((item, index)=>
-        (
-         <>
-         <p className="inline-block"> {item} </p>
-         {index < blank && <button className={`p-1 cursor-pointer relative ${ answerset[index]? 'border rounded p-2 m-1 absolute top-2' : 'grey '}`} onClick={onpress2}>
-          {answerset[index] || "______"}
-         </button> }
-         </>
-  
-        ))}</p>
-      
-       {data.option.map((item)=>(
-         <div className="p-2 inline-block ">
-        <button className="p-1 border cursor-pointer" onClick={() => onpress(item)}>{item}</button>
-        </div>
-       ))}
-  
-       
-      </>
-    )
+  }, [index, backendquestion]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onpress();
+    }, 30 * 1000);
+
+    return () => clearTimeout(timer);
+  }, [index]);
+
+  function onpress() {
+    setIndex((prev) => prev + 1);
+  }
+
+  return (
+    <>
+     
+        <QuestionBox question={question} options={options} onpress={onpress} />
+     
+    </>
+  );
 }
