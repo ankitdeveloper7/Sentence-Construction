@@ -9,6 +9,8 @@ export default function Questionscreen() {
   const [backendquestion, setBackendQuestion] = useState<any[]>([]);
   const [index, setIndex] = useState(0);
 
+
+  // fetching data from the backend 
   useEffect(() => {
     async function getData() {
       try {
@@ -23,16 +25,18 @@ export default function Questionscreen() {
     getData();
   }, []);
 
+  // setting the question to display 
   useEffect(() => {
     if (backendquestion.length > 0 && backendquestion[index]) {
       const data = backendquestion[index];
       setQuestion(data.question);
       setOptions(data.options);
       getAnswer(data.correctAnswer);
-      
+
     }
   }, [index, backendquestion]);
 
+  // automatically changing the question after every 30 sec of time 
   useEffect(() => {
     const timer = setTimeout(() => {
       onpress();

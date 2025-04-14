@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { correctanswerAtom, useranswerAtom } from '../pages/store/atom';
+import { useNavigate } from 'react-router-dom';
+import QuitModal from '../modal/QuitModal';
 
 
 
@@ -20,7 +22,9 @@ export default function QuestionBox({ question, options, correctoption, onpress 
   const useranswer = useSetRecoilState(useranswerAtom)
  const correctanswer = useSetRecoilState(correctanswerAtom)
  const[length, setlength] = useState(11);
+ const[ismodalopen, setModal] = useState(false);
 
+//  spliting the question and setting all the value to their state 
   useEffect(() => {
     const data: string[] = question.split(" _____________ ");
     setCurrentquestion(data);
@@ -33,7 +37,7 @@ export default function QuestionBox({ question, options, correctoption, onpress 
 
   
 
-
+// timer logic 
   useEffect(() => {
     if(timer==1){
         sendata();
@@ -49,6 +53,7 @@ export default function QuestionBox({ question, options, correctoption, onpress 
 
     return () => clearTimeout(timeout);
   }, [timer]);
+
 
   function setAnswer(answer: string) {
     if (selectedOptions.length < blank) {
@@ -67,12 +72,13 @@ export default function QuestionBox({ question, options, correctoption, onpress 
     setAvailableOptions((prev) => [...prev, removed]);
   }
 
+//   combining the data 
   function sendata(){
    let actualanswer:string = "";
    let answer:string = "";
    for(let i=0; i<correctoption.length; i++){
-   actualanswer =  actualanswer + currentquestion[i] + selectedOptions[i];
-   answer= answer + currentquestion[i] + correctoption[i];
+   actualanswer =  actualanswer + currentquestion[i] + " " + selectedOptions[i];
+   answer= answer + currentquestion[i] + " " + correctoption[i];
    };
    actualanswer = actualanswer + currentquestion[currentquestion.length-1]|| "";
    answer = answer + currentquestion[currentquestion.length-1]|| "";
@@ -85,20 +91,28 @@ export default function QuestionBox({ question, options, correctoption, onpress 
     onpress();
   }
 
+//   changing the page 
+const navigate = useNavigate();
   function openfeedback(){
-    {window.open("/feedback", "_self")}
+    sendata();
+    navigate("/feedback");
+  }
+
+  function quitQuiz(){
+setModal(true)
+  }
+  function handlelick(){
+    setModal(false);
   }
 
   return (
-    <div className='bg-[#7C8181]'>
-
-   
-    <div className="w-[975px] top-[116px] left-[196px] border-2 shadow bg-white rounded-[24px] p-[40px] gap-[56px] absolute">
+    <div>   
+    <div className="w-[975px] h-[450px] mt-[112px] ml-[196px] border-2 rounded-[24px] p-[40px] gap-[56px] bg-white">
       <div className="flex justify-between items-center mb-4">
         <div className="font-inter font-semibold text-[24px] leading-[26px] tracking-[0px] text-center space-y-[8px]">
           {Math.floor(timer / 60)}:{String(timer % 60).padStart(2, '0')}
         </div>
-        <button className="text-red-500 font-medium hover:underline">Quit</button>
+        <button className="text-red-500 font-medium hover:underline" onClick={quitQuiz}>Quit</button>
       </div>
 
       <div className="font-inter font-semibold text-[#7C8181] text-[20px] leading-[22px] tracking-[0px] text-center space-y-[8px]">
@@ -108,7 +122,7 @@ export default function QuestionBox({ question, options, correctoption, onpress 
       <p className="my-6">
         {currentquestion.map((item: string, index: number) => (
           <React.Fragment key={index}>
-            <span className=' font-inter font-medium text-[24px] leading-[26px] tracking-[0px] space-y-[8px]'>{item}</span>
+            <span className='text-[24px] leading-[50px] font-medium'>{item}</span>
             {index < blank && (
               <button
                 className={`${selectedOptions[index]?'m-1 border-2 rounded-lg p-1 px-3 cursor-pointer':''}`}
@@ -141,12 +155,13 @@ export default function QuestionBox({ question, options, correctoption, onpress 
           Submit
         </button>: <button
           onClick={sendata}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
+          className="mt-4 px-4 py-2 bg-blue-500 text-white fixed right-3 rounded cursor-pointer"
         >
           Next
         </button>}
       </div>
     </div>
+<QuitModal isModalOpen={ismodalopen} onClose={handlelick} />
     </div>
   );
 }
