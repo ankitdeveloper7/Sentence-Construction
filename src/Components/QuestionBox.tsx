@@ -155,7 +155,7 @@ setModal(true)
           Submit
         </button>: <button
           onClick={sendata}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white fixed right-3 rounded cursor-pointer"
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
         >
           Next
         </button>}
