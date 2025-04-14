@@ -24,7 +24,7 @@ An interactive web application to help users practice sentence construction usin
 
 ---
 
----
+
 
 ## 📦 Installation
 
@@ -35,7 +35,11 @@ npm install
 npm run dev
 
 
-The file project Look like this
+---
+
+
+# image section
+
 This is main page
 ![App Screenshot](./images/mainpage.png)
 
