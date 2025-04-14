@@ -1,13 +1,23 @@
 import { useRecoilValue } from "recoil";
-import { correctanswerAtom, scoreAtom, useranswerAtom } from "./store/atom";
+import { correctanswerAtom,useranswerAtom } from "./store/atom";
 import { FaArrowLeft } from "react-icons/fa";
 import { SlOptionsVertical } from "react-icons/sl";
 import Answershowcase from "../Components/Answershowcase";
+import { useEffect, useState } from "react";
 
 export default function Feedback() {
   const useranswer: string[] = useRecoilValue(useranswerAtom);
   const correctanswer: string[] = useRecoilValue(correctanswerAtom);
-  const score:number = useRecoilValue(scoreAtom);
+  const[score, getScore] = useState(0);
+  
+  useEffect(()=>{
+   for(let i=0; i<correctanswer.length; i++){
+    if(useranswer[i]===correctanswer[i]){
+      getScore(score+1)
+    }
+   }
+   console.log("this is score value", score)
+  },[useranswer,correctanswer])
 
   // const data:string ="this is dlajsd lfkajsd flaksdj flaksdjf laksdjf laksjdf laskjdf las";
 

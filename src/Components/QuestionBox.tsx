@@ -107,60 +107,71 @@ setModal(true)
 
   return (
     <div>   
-    <div className="w-[975px] h-[450px] mt-[112px] ml-[196px] border-2 rounded-[24px] p-[40px] gap-[56px] bg-white">
-      <div className="flex justify-between items-center mb-4">
-        <div className="font-inter font-semibold text-[24px] leading-[26px] tracking-[0px] text-center space-y-[8px]">
-          {Math.floor(timer / 60)}:{String(timer % 60).padStart(2, '0')}
-        </div>
-        <button className="text-red-500 font-medium hover:underline" onClick={quitQuiz}>Quit</button>
-      </div>
-
-      <div className="font-inter font-semibold text-[#7C8181] text-[20px] leading-[22px] tracking-[0px] text-center space-y-[8px]">
-        Select the missing words in the correct order
-      </div>
-
-      <p className="my-6">
-        {currentquestion.map((item: string, index: number) => (
-          <React.Fragment key={index}>
-            <span className='text-[24px] leading-[50px] font-medium'>{item}</span>
-            {index < blank && (
-              <button
-                className={`${selectedOptions[index]?'m-1 border-2 rounded-lg p-1 px-3 cursor-pointer':''}`}
-                onClick={() => removeAnswer(index)}
-              >
-                {selectedOptions[index] || " _____________ "}
-              </button>
-            )}
-          </React.Fragment>
-        ))}
-      </p>
-
-      <div className="pt-4 flex flex-wrap gap-2 justify-center">
-        {availableOptions.map((item: string) => (
-          <button
-            key={item}
-            className="border-2 rounded-lg p-1 px-3 cursor-pointer"
-            onClick={() => setAnswer(item)}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-
-      <div className="flex justify-end">
-        {length==0?<button
-          onClick={openfeedback}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
-        >
-          Submit
-        </button>: <button
-          onClick={sendata}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
-        >
-          Next
-        </button>}
-      </div>
+    <div className="w-full max-w-4xl mx-auto m-2 mt-10 px-4 sm:px-6 lg:px-8 border-2 rounded-2xl p-6 sm:p-10 bg-white shadow-md">
+  <div className="flex justify-between items-center mb-4">
+    <div className="font-inter font-semibold text-xl sm:text-2xl text-center">
+      {Math.floor(timer / 60)}:{String(timer % 60).padStart(2, '0')}
     </div>
+    <button className="text-red-500 font-medium hover:underline" onClick={quitQuiz}>
+      Quit
+    </button>
+  </div>
+
+  <div className="font-inter font-semibold text-gray-600 text-base sm:text-lg text-center mb-4">
+    Select the missing words in the correct order
+  </div>
+
+  <p className="my-6 text-base sm:text-lg text-center">
+    {currentquestion.map((item: string, index: number) => (
+      <React.Fragment key={index}>
+        <span className="text-lg sm:text-xl font-medium">{item}</span>
+        {index < blank && (
+          <button
+            className={`${
+              selectedOptions[index]
+                ? 'm-1 border-2 rounded-lg p-1 px-3 cursor-pointer'
+                : 'text-blue-500 mx-1'
+            }`}
+            onClick={() => removeAnswer(index)}
+          >
+            {selectedOptions[index] || ' _____________ '}
+          </button>
+        )}
+      </React.Fragment>
+    ))}
+  </p>
+
+  <div className="pt-4 flex flex-wrap gap-2 justify-center">
+    {availableOptions.map((item: string) => (
+      <button
+        key={item}
+        className="border-2 rounded-lg p-1 px-3 text-sm sm:text-base cursor-pointer hover:bg-blue-100 transition-all"
+        onClick={() => setAnswer(item)}
+      >
+        {item}
+      </button>
+    ))}
+  </div>
+
+  <div className="flex justify-end mt-6">
+    {length === 0 ? (
+      <button
+        onClick={openfeedback}
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all"
+      >
+        Submit
+      </button>
+    ) : (
+      <button
+        onClick={sendata}
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-all"
+      >
+        Next
+      </button>
+    )}
+  </div>
+</div>
+
 <QuitModal isModalOpen={ismodalopen} onClose={handlelick} />
     </div>
   );

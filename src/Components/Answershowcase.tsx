@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { scoreAtom } from "../pages/store/atom";
 import { useSetRecoilState } from "recoil";
 
 interface Props {
@@ -10,22 +9,15 @@ interface Props {
   
   export default function Answershowcase({ useranswer, correctanswer, index }: Props) {
     const [response, setResponse] = useState(true);
-    const[score, setScore] = useState(0);
-    const setScoreRecoil = useSetRecoilState(scoreAtom)
+   
+   
   
     useEffect(() => {
       const isCorrect = useranswer === correctanswer;
       setResponse(isCorrect);
-  
-      if (isCorrect) {
-        setScore((prev) => {
-          const updated = prev + 1;
-          setScoreRecoil(updated); 
-          return updated;
-        });
-      }
-    }, [useranswer, correctanswer, setScoreRecoil]);
-    console.log(score)
+    }, [useranswer, correctanswer]);
+    
+   
     
   
     return (
