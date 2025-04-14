@@ -24,6 +24,15 @@ An interactive web application to help users practice sentence construction usin
 
 ---
 
+# Result
+This is main page
+![App Screenshot](./images/mainpage.png)
+
+This is question page
+![App Screenshot](./images/question.png)
+
+This is Result page
+![App Screenshot](./images/result.png)
 
 
 ## 📦 Installation
@@ -40,13 +49,6 @@ npm run dev
 
 # image section
 
-This is main page
-![App Screenshot](./images/mainpage.png)
 
-This is question page
-![App Screenshot](./images/question.png)
-
-This is Result page
-![App Screenshot](./images/result.png)
 
 
