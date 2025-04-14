@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import {useSetRecoilState } from 'recoil';
 import { correctanswerAtom, useranswerAtom } from '../pages/store/atom';
 import { useNavigate } from 'react-router-dom';
 import QuitModal from '../modal/QuitModal';
