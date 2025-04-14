@@ -37,12 +37,12 @@ npm run dev
 
 The file project Look like this
 This is main page
-![App Screenshot](public/images/mainpage.png)
+![App Screenshot](./public/images/mainpage.png)
 
 This is question page
-![App Screenshot](public/images/question.png)
+![App Screenshot](./public/images/question.png)
 
 This is Result page
-![App Screenshot](public/images/result.png)
+![App Screenshot](./public/images/result.png)
 
 
